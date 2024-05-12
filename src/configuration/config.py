@@ -1,5 +1,5 @@
 from src.constants import *
-from src.entity.config import DataIngestionConfig, LoadModelConfig, TrainingConfig
+from src.entity.config import DataIngestionConfig, LoadModelConfig, TrainingConfig, EvaluationConfig
 from src.utils.file import read_yaml_file
 from src.utils.directories import create_directories
 
@@ -52,3 +52,15 @@ class ConfigurationManager:
                                             agumentation=self.params.AUGMENTATION,
                                             image_size=self.params.IMAGE_SIZE)
         return train_model_config
+    
+    def get_evaluation_config(self) -> EvaluationConfig:
+        data_ingestion_config = self.config.data_ingestion
+        train_model_config = self.config.training_model
+
+        evaluation_config = EvaluationConfig(model_path=Path(train_model_config.model_path), 
+                                             training_data=Path(data_ingestion_config.train_data_dir),
+                                             all_params=self.params,
+                                             mlflow_uri="https://dagshub.com/Sandeep-Pasumarthi/Chest-Disease-Classification.mlflow",
+                                             image_size=self.params.IMAGE_SIZE,
+                                             batch_size=self.params.BATCH_SIZE)
+        return evaluation_config
