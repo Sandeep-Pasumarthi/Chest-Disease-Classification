@@ -1,5 +1,5 @@
 from src.constants import *
-from src.entity.config import DataIngestionConfig, LoadModelConfig
+from src.entity.config import DataIngestionConfig, LoadModelConfig, TrainingConfig
 from src.utils.file import read_yaml_file
 from src.utils.directories import create_directories
 
@@ -35,3 +35,20 @@ class ConfigurationManager:
                                             weights=self.params.WEIGHTS,
                                             classes=self.params.CLASSES)
         return load_model_config
+    
+    def get_train_model_config(self) -> TrainingConfig:
+        data_ingestion_config = self.config.data_ingestion
+        load_model_config = self.config.load_model
+        train_model_config = self.config.training_model
+        create_directories([train_model_config.root_dir])
+
+        train_model_config = TrainingConfig(root_dir=Path(train_model_config.root_dir),
+                                            base_model_path=Path(load_model_config.model_path),
+                                            trained_model_path=Path(train_model_config.model_path),
+                                            training_data=Path(data_ingestion_config.train_data_dir),
+                                            epochs=self.params.EPOCHS,
+                                            batch_size=self.params.BATCH_SIZE,
+                                            patience=self.params.PATIENCE,
+                                            agumentation=self.params.AUGMENTATION,
+                                            image_size=self.params.IMAGE_SIZE)
+        return train_model_config

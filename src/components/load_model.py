@@ -1,11 +1,7 @@
 from src.entity.config import LoadModelConfig
 from src import logger
 
-from pathlib import Path
-from zipfile import ZipFile
-
 import tensorflow as tf
-import os
 
 
 class LoadModel:

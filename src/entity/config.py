@@ -18,3 +18,15 @@ class LoadModelConfig:
     include_top: bool
     weights: str
     classes: int
+
+@dataclass(frozen=True)
+class TrainingConfig:
+    root_dir: Path
+    base_model_path: Path
+    trained_model_path: Path
+    training_data: Path
+    epochs: int
+    batch_size: int
+    patience: int
+    agumentation: bool
+    image_size: list
