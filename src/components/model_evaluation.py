@@ -1,7 +1,10 @@
 from src.entity.config import EvaluationConfig
+from src.utils.file import save_json_file
+from src.utils.directories import create_directories
 from src import logger
 
 from urllib.parse import urlparse
+from pathlib import Path
 
 import mlflow
 import mlflow.keras
@@ -49,6 +52,13 @@ class ModelEvaluation:
         logger.info(f"Evaluating Model")
         self.score = self.model.evaluate(self.validation_generator)
         logger.info(f"Model evaluated")
+    
+    def save_metrics(self):
+        metrics = {"loss": self.score[0], "accuracy": self.score[1]}
+        logger.info(f"Saving metrics to {Path('reports/metrics.json')}")
+        create_directories([Path("reports/")])
+        save_json_file(Path("reports/metrics.json"), metrics)
+        logger.info(f"Metrics saved to {Path('reports/metrics.json')}")
     
     def log_to_mlflow(self):
         logger.info(f"Logging to MLFlow")

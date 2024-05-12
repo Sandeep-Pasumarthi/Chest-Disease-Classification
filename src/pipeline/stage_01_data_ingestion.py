@@ -19,3 +19,12 @@ class DataIngestionPipeline:
         except Exception as e:
             logger.error(f"In {__file__}:\n{e}")
             raise e
+
+
+if __name__ == "__main__":
+    try:
+        data_ingestion = DataIngestionPipeline()
+        data_ingestion.run()
+    except Exception as e:
+        logger.error(f"Error in {__file__}: {e}")
+        raise e

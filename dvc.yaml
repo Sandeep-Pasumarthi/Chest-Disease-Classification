@@ -1,0 +1,52 @@
+stages:
+  data_ingestion:
+    cmd: python src/pipeline/stage_01_data_ingestion.py
+    deps:
+      - src/pipeline/stage_01_data_ingestion.py
+      - config/config.yaml
+    outs:
+      - artifacts/data_ingestion/Chest-Classification-Data
+  
+  load_model:
+    cmd: python src/pipeline/stage_02_load_model.py
+    deps:
+      - src/pipeline/stage_02_load_model.py
+      - config/config.yaml
+    params:
+      - IMAGE_SIZE
+      - INCLUDE_TOP
+      - CLASSES
+      - WEIGHTS
+      - LEARNING_RATE
+    outs:
+      - artifacts/base_model/model.h5
+  
+  model_training:
+    cmd: python src/pipeline/stage_03_train_model.py
+    deps:
+      - src/pipeline/stage_03_train_model.py
+      - config/config.yaml
+      - artifacts/data_ingestion/Chest-Classification-Data
+      - artifacts/base_model/model.h5
+    params:
+      - IMAGE_SIZE
+      - EPOCHS
+      - BATCH_SIZE
+      - AUGMENTATION
+      - PATIENCE
+    outs:
+      - artifacts/training_model/model.h5
+  
+  evaluation:
+    cmd: python src/pipeline/stage_04_evaluate_model.py
+    deps:
+      - src/pipeline/stage_04_evaluate_model.py
+      - config/config.yaml
+      - artifacts/data_ingestion/Chest-Classification-Data
+      - artifacts/training_model/model.h5
+    params:
+      - IMAGE_SIZE
+      - BATCH_SIZE
+    metrics:
+    - reports/metrics.json:
+        cache: false

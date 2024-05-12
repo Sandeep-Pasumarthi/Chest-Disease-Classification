@@ -20,3 +20,12 @@ class LoadModelPipeLine:
         except Exception as e:
             logger.error(f"Error in {__file__}: {e}")
             raise e
+
+
+if __name__ == "__main__":
+    try:
+        load_model_pipeline = LoadModelPipeLine()
+        load_model_pipeline.run()
+    except Exception as e:
+        logger.error(f"Error in {__file__}: {e}")
+        raise e
