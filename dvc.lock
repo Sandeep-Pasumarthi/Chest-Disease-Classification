@@ -7,6 +7,10 @@ stages:
       hash: md5
       md5: ded3b0ae1af8539142c135f857991366
       size: 547
+    - path: src/components/data_ingestion.py
+      hash: md5
+      md5: 741a1c1a7a175f8f856da84b1841e0ab
+      size: 1257
     - path: src/pipeline/stage_01_data_ingestion.py
       hash: md5
       md5: cb7713f0e82d1c5173468512127a51b8
@@ -24,6 +28,10 @@ stages:
       hash: md5
       md5: ded3b0ae1af8539142c135f857991366
       size: 547
+    - path: src/components/load_model.py
+      hash: md5
+      md5: b96adcdc5c4db981372e9c5ae452de39
+      size: 1575
     - path: src/pipeline/stage_02_load_model.py
       hash: md5
       md5: 08e72fb7ebbba66190e3c28678ac9704
@@ -41,15 +49,15 @@ stages:
     outs:
     - path: artifacts/base_model/model.h5
       hash: md5
-      md5: c3db7890beda829504876e8f3e312e6b
-      size: 230661808
+      md5: 27925913261545e23ed71d250bc67a13
+      size: 53705408
   model_training:
     cmd: python src/pipeline/stage_03_train_model.py
     deps:
     - path: artifacts/base_model/model.h5
       hash: md5
-      md5: c3db7890beda829504876e8f3e312e6b
-      size: 230661808
+      md5: 27925913261545e23ed71d250bc67a13
+      size: 53705408
     - path: artifacts/data_ingestion/Chest-Classification-Data
       hash: md5
       md5: c49179f69c225825699edd3d6a9a6072.dir
@@ -59,6 +67,10 @@ stages:
       hash: md5
       md5: ded3b0ae1af8539142c135f857991366
       size: 547
+    - path: src/components/train_model.py
+      hash: md5
+      md5: 1b864df679136c94a91218e2638b2f91
+      size: 2970
     - path: src/pipeline/stage_03_train_model.py
       hash: md5
       md5: 547cbd7e91ccd77c591bb03f68db59fe
@@ -76,8 +88,8 @@ stages:
     outs:
     - path: artifacts/training_model/model.h5
       hash: md5
-      md5: e4971201488065e35f7810741f7d987d
-      size: 262802584
+      md5: da2b7a6b83ee6b72182633351723ccb8
+      size: 89057448
   evaluation:
     cmd: python src/pipeline/stage_04_evaluate_model.py
     deps:
@@ -88,16 +100,20 @@ stages:
       nfiles: 804
     - path: artifacts/training_model/model.h5
       hash: md5
-      md5: e4971201488065e35f7810741f7d987d
-      size: 262802584
+      md5: da2b7a6b83ee6b72182633351723ccb8
+      size: 89057448
     - path: config/config.yaml
       hash: md5
       md5: ded3b0ae1af8539142c135f857991366
       size: 547
+    - path: src/components/model_evaluation.py
+      hash: md5
+      md5: f252d88b171b9d72b45ade11ecdc2089
+      size: 3168
     - path: src/pipeline/stage_04_evaluate_model.py
       hash: md5
-      md5: 7a4b88b2cc82b9550f3e59075c466535
-      size: 1235
+      md5: 95d8d63e0d03dcfdecbae9d6226305cb
+      size: 1289
     params:
       params.yaml:
         BATCH_SIZE: 16
@@ -108,5 +124,5 @@ stages:
     outs:
     - path: reports/metrics.json
       hash: md5
-      md5: db6ddf49ae8df325f935a709d60c6ed8
+      md5: 15c322cf4c63f27f3e6929dbe0490ff9
       size: 60

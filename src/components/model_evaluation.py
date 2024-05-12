@@ -5,6 +5,7 @@ from src import logger
 
 from urllib.parse import urlparse
 from pathlib import Path
+from shutil import copy
 
 import mlflow
 import mlflow.keras
@@ -60,6 +61,12 @@ class ModelEvaluation:
         save_json_file(Path("reports/metrics.json"), metrics)
         logger.info(f"Metrics saved to {Path('reports/metrics.json')}")
     
+    def transfer_to_model_dir(self):
+        logger.info(f"Transferring model to {self.config.model_path}")
+        create_directories([Path("models/")])
+        copy(self.config.model_path, Path("models/model.h5"))
+        logger.info(f"Model transferred to {self.config.model_path}")
+
     def log_to_mlflow(self):
         logger.info(f"Logging to MLFlow")
         mlflow.set_registry_uri(self.config.mlflow_uri)

@@ -4,6 +4,7 @@ stages:
     deps:
       - src/pipeline/stage_01_data_ingestion.py
       - config/config.yaml
+      - src/components/data_ingestion.py
     outs:
       - artifacts/data_ingestion/Chest-Classification-Data
   
@@ -12,6 +13,7 @@ stages:
     deps:
       - src/pipeline/stage_02_load_model.py
       - config/config.yaml
+      - src/components/load_model.py
     params:
       - IMAGE_SIZE
       - INCLUDE_TOP
@@ -26,6 +28,7 @@ stages:
     deps:
       - src/pipeline/stage_03_train_model.py
       - config/config.yaml
+      - src/components/train_model.py
       - artifacts/data_ingestion/Chest-Classification-Data
       - artifacts/base_model/model.h5
     params:
@@ -42,6 +45,7 @@ stages:
     deps:
       - src/pipeline/stage_04_evaluate_model.py
       - config/config.yaml
+      - src/components/model_evaluation.py
       - artifacts/data_ingestion/Chest-Classification-Data
       - artifacts/training_model/model.h5
     params:

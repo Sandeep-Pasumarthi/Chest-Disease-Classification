@@ -17,6 +17,7 @@ class ModelEvaluationPipeline:
             model_evaluation.load_model()
             model_evaluation.evaluate_model()
             model_evaluation.save_metrics()
+            model_evaluation.transfer_to_model_dir()
             model_evaluation.log_to_mlflow()
             logger.info(f"In {__file__}: Completed STAGE ModelEvaluation")
         except Exception as e:

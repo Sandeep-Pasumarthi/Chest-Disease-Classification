@@ -10,7 +10,7 @@ class LoadModel:
     
     def download_pretrained_model(self):
         logger.info("Loading model")
-        self.model = tf.keras.applications.EfficientNetV2M(
+        self.model = tf.keras.applications.EfficientNetV2B2(
             input_shape=self.config.image_size,
             weights=self.config.weights,
             include_top=self.config.include_top
